@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Application</title>
+    <link rel="stylesheet" href="styles/generic.css" />
+    <link rel="stylesheet" href="styles/weather.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./scripts/entry.js" defer></script>
+    <script src="./scripts/location.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Open Weather Application</h1>
+      <div class="search">
+        <input type="text" placeholder="Enter your city" />
+        <button id="find-your-location" type="submit">Find me</button>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <div id="currentDay" class="currentDay">
+          <h2>Kirkby</h2>
+          <h2 id="todayDate">Today's Date</h2>
+          <img
+            src="https://openweathermap.org/img/wn/10d@2x.png"
+            alt="Weather image"
+          />
+          <p>temp</p>
+          <p>Weather Description</p>
+          <p>Wind Speed</p>
+          <p>Min Temp</p>
+          <p>Max Temp</p>
+        </div>
+        <div class="secondContainer outer">
+          <div class="secondContainer inner first">
+            <div class="daycontainer">
+              <h3>Next Date</h3>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="weather picture"
+              />
+              <p>Temp</p>
+            </div>
+            <div class="daycontainer">
+              <h3>Next Date</h3>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="weather picture"
+              />
+              <p>Temp</p>
+            </div>
+            <div class="daycontainer">
+              <h3>Next Date</h3>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="weather picture"
+              />
+              <p>Temp</p>
+            </div>
+          </div>
+          <div class="secondContainer inner second">
+            <div class="hourlyUpdate" id="time1">
+              <p>Time</p>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="Weather"
+              />
+              <p>Weather</p>
+            </div>
+            <div class="hourlyUpdate">
+              <p>Time</p>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="Weather"
+              />
+              <p>Weather</p>
+            </div>
+            <div class="hourlyUpdate">
+              <p>Time</p>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="Weather"
+              />
+              <p>Weather</p>
+            </div>
+            <div class="hourlyUpdate">
+              <p>Time</p>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="Weather"
+              />
+              <p>Weather</p>
+            </div>
+            <div class="hourlyUpdate">
+              <p>Time</p>
+              <img
+                src="https://openweathermap.org/img/wn/10d@2x.png"
+                alt="Weather"
+              />
+              <p>Weather</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
