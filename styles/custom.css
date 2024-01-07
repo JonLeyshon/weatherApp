@@ -1,0 +1,9 @@
+img {
+  margin: auto;
+}
+
+/* Gradient 1 */
+.hourlyUpdate,
+.daycontainer {
+  background: linear-gradient(to bottom right, #f0f0f0, #e0e0e0);
+}

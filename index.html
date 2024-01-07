@@ -4,106 +4,79 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Application</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
     <link rel="stylesheet" href="styles/generic.css" />
-    <link rel="stylesheet" href="styles/weather.css" />
+    <link rel="stylesheet" href="styles/custom.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./scripts/entry.js" defer></script>
-    <script src="./scripts/location.js" defer></script>
+    <script type="module" src="./scripts/entry.js" defer></script>
+    <script type="module" src="./scripts/location.js"></script>
   </head>
-  <body>
-    <header>
-      <h1>Open Weather Application</h1>
-      <div class="search">
-        <input type="text" placeholder="Enter your city" />
-        <button id="find-your-location" type="submit">Find me</button>
+  <body class="has-background-light">
+    <section class="hero is-primary is-bold">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white is-size-3-desktop">
+            Open Weather Application
+          </h1>
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input
+                    id="input-bar"
+                    type="text"
+                    placeholder="Enter your city"
+                    class="input is-primary is-medium is-size-5"
+                  />
+                </div>
+                <div class="control">
+                  <button
+                    id="search-btn"
+                    type="submit"
+                    class="button is-info is-large is-size-5"
+                  >
+                    Search
+                  </button>
+                </div>
+                <div class="control">
+                  <button
+                    id="find-your-location"
+                    type="submit"
+                    class="button is-light is-large ml-3 is-size-5"
+                  >
+                    Find me
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
-    <main>
+    </section>
+
+    <section class="section has-text-centered">
       <div class="container">
-        <div id="currentDay" class="currentDay">
-          <h2>Kirkby</h2>
-          <h2 id="todayDate">Today's Date</h2>
-          <img
-            src="https://openweathermap.org/img/wn/10d@2x.png"
-            alt="Weather image"
-          />
-          <p>temp</p>
-          <p>Weather Description</p>
-          <p>Wind Speed</p>
-          <p>Min Temp</p>
-          <p>Max Temp</p>
+        <h1 id="warning" class="subtitle is-size-4"></h1>
+        <div id="currentDay" class="box has-text-centered">
+          <!-- Your content goes here -->
         </div>
-        <div class="secondContainer outer">
-          <div class="secondContainer inner first">
-            <div class="daycontainer">
-              <h3>Next Date</h3>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="weather picture"
-              />
-              <p>Temp</p>
-            </div>
-            <div class="daycontainer">
-              <h3>Next Date</h3>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="weather picture"
-              />
-              <p>Temp</p>
-            </div>
-            <div class="daycontainer">
-              <h3>Next Date</h3>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="weather picture"
-              />
-              <p>Temp</p>
-            </div>
+        <div class="columns">
+          <div class="column">
+            <div class="box hourlyUpdate has-text-centered" id="time1"></div>
+            <div class="box hourlyUpdate has-text-centered"></div>
+            <div class="box hourlyUpdate has-text-centered"></div>
+            <div class="box hourlyUpdate has-text-centered"></div>
           </div>
-          <div class="secondContainer inner second">
-            <div class="hourlyUpdate" id="time1">
-              <p>Time</p>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="Weather"
-              />
-              <p>Weather</p>
-            </div>
-            <div class="hourlyUpdate">
-              <p>Time</p>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="Weather"
-              />
-              <p>Weather</p>
-            </div>
-            <div class="hourlyUpdate">
-              <p>Time</p>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="Weather"
-              />
-              <p>Weather</p>
-            </div>
-            <div class="hourlyUpdate">
-              <p>Time</p>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="Weather"
-              />
-              <p>Weather</p>
-            </div>
-            <div class="hourlyUpdate">
-              <p>Time</p>
-              <img
-                src="https://openweathermap.org/img/wn/10d@2x.png"
-                alt="Weather"
-              />
-              <p>Weather</p>
-            </div>
+          <div class="column">
+            <div class="box daycontainer has-text-centered"></div>
+            <div class="box daycontainer has-text-centered"></div>
+            <div class="box daycontainer has-text-centered"></div>
           </div>
         </div>
       </div>
-    </main>
+    </section>
   </body>
 </html>
