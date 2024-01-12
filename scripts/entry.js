@@ -1,9 +1,11 @@
 import { getLocation } from "./location.js";
+import {
+  updateCurrentData,
+  updateLaterData,
+  updateNextDayData,
+} from "./domManipulation.js";
 
 //dom refs
-const currentDayRef = document.getElementById("currentDay");
-const hourlyUpdates = document.getElementsByClassName("hourlyUpdate");
-const dayContainer = document.getElementsByClassName("daycontainer");
 const searchBtnRef = document.getElementById("search-btn");
 const inputRef = document.getElementById("input-bar");
 const warningRef = document.getElementById("warning");
@@ -18,9 +20,13 @@ searchBtnRef.addEventListener("click", () => {
   searchBtnRef.classList.add("is-loading");
   getCurrentWeatherData();
   getLaterDates();
-  getNextDay();
 
   return;
+});
+
+locationButton.addEventListener("click", () => {
+  locationButton.classList.add("is-loading");
+  getLocalWeather();
 });
 
 //get weather functions
@@ -30,29 +36,7 @@ function getCurrentWeatherData() {
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
     )
     .then((resp) => {
-      console.log(resp);
-      let date = resp.data.dt * 1000;
-      date = new Date(date).toDateString();
-      let image = resp.data.weather[0].icon;
-      let temp = Math.floor(resp.data.main.temp);
-      let description = resp.data.weather[0].description;
-      let wind = resp.data.wind.speed;
-      let lowTemp = Math.floor(resp.data.main.temp_min);
-      let highTemp = Math.floor(resp.data.main.temp_max);
-      let city = resp.data.name;
-      let country = resp.data.sys.country;
-      warningRef.innerHTML = "";
-      currentDayRef.innerHTML = `<h2>${city},${country}</h2>
-      <h2 id="todayDate">${date}</h2>
-      <img
-        src="https://openweathermap.org/img/wn/${image}@2x.png"
-        alt="Weather image"
-      />
-      <p>${temp}&deg;C </p>
-      <p>${description}</p>
-      <p>Wind Speed: ${wind} m/s</p>
-      <p>Lows of ${lowTemp}&deg;C</p>
-      <p>Highs of ${highTemp}&deg;C</p>`;
+      updateCurrentData(resp);
     })
     .catch(function (error) {
       console.log(error);
@@ -66,62 +50,8 @@ function getLaterDates() {
       `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`
     )
     .then((resp) => {
-      console.log(resp);
-      //look at for of loops again
-      for (let i = 0; i < 5; i++) {
-        let hour = resp.data.list[i].dt * 1000;
-        hour = new Date(hour).getHours();
-        let image = resp.data.list[i].weather[0].icon;
-        let weatherDesc = resp.data.list[i].weather[0].description;
-        let temp = Math.floor(resp.data.list[i].main.temp);
-
-        hourlyUpdates[i].innerHTML = `<p>${hour}:00 GMT</p>
-      <img
-        src="https://openweathermap.org/img/wn/${image}@2x.png"
-        alt="Weather"
-      />
-      <p>${weatherDesc}</p>
-      <p>${temp}&deg;C</p>`;
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-function getNextDay() {
-  axios
-    .get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`
-    )
-    .then((resp) => {
-      console.log(resp);
-      let datesData = resp.data.list.filter((day) =>
-        day.dt_txt.includes("12:00")
-      );
-      console.log(datesData);
-      for (let i = 0; i < 3; i++) {
-        let daysOfTheWeekArr = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-        let date = new Date(datesData[i].dt * 1000);
-        let dayofTheWeek = daysOfTheWeekArr[date.getDay()];
-        let temp = Math.floor(datesData[i].main.temp);
-        let weatherDesc = datesData[i].weather[0].description;
-        let weatherImage = datesData[i].weather[0].icon;
-
-        dayContainer[i].innerHTML = `<p> ${dayofTheWeek} </p>
-                                      <img src="https://openweathermap.org/img/wn/${weatherImage}@2x.png">
-                                      <p>${weatherDesc}</p>
-                                      <p>${temp} &deg;C </p>`;
-
-        searchBtnRef.classList.remove("is-loading");
-      }
+      updateLaterData(resp);
+      updateNextDayData(resp);
     })
     .catch(function (error) {
       console.log(error);
@@ -136,34 +66,7 @@ async function getLocalWeather() {
         `https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${apiKey}&units=metric`
       )
       .then((resp) => {
-        console.log(resp);
-        let date = resp.data.dt * 1000;
-        date = new Date(date).toDateString();
-        let image = resp.data.weather[0].icon;
-        let temp = Math.floor(resp.data.main.temp);
-        let description = resp.data.weather[0].description;
-        let wind = resp.data.wind.speed;
-        let lowTemp = Math.floor(resp.data.main.temp_min);
-        let highTemp = Math.floor(resp.data.main.temp_max);
-        let city = resp.data.name;
-        let country = resp.data.sys.country;
-        warningRef.innerHTML = "";
-        currentDayRef.innerHTML = `<h2>${city},${country}</h2>
-        <h2 id="todayDate">${date}</h2>
-        <img
-          src="https://openweathermap.org/img/wn/${image}@2x.png"
-          alt="Weather image"
-        />
-        <p>${temp}&deg;C </p>
-        <p>${description}</p>
-        <p>Wind Speed: ${wind} m/s</p>
-        <p>Lows of ${lowTemp}&deg;C</p>
-        <p>Highs of ${highTemp}&deg;C</p>`;
-      })
-      .catch(function (error) {
-        console.log(error);
-        warningRef.innerHTML = `<h1> Please allow location services </h1>`;
-        locationButton.classList.remove("is-loading");
+        updateCurrentData(resp);
       });
   }
   function getLaterDatesLocal() {
@@ -172,62 +75,8 @@ async function getLocalWeather() {
         `https://api.openweathermap.org/data/2.5/forecast?lat=${coords.latitude}&lon=${coords.longitude}&appid=${apiKey}&units=metric`
       )
       .then((resp) => {
-        console.log(resp);
-        //look at for of loops again
-        for (let i = 0; i < 5; i++) {
-          let hour = resp.data.list[i].dt * 1000;
-          hour = new Date(hour).getHours();
-          let image = resp.data.list[i].weather[0].icon;
-          let weatherDesc = resp.data.list[i].weather[0].description;
-          let temp = Math.floor(resp.data.list[i].main.temp);
-
-          hourlyUpdates[i].innerHTML = `<p>${hour}:00 GMT</p>
-      <img
-        src="https://openweathermap.org/img/wn/${image}@2x.png"
-        alt="Weather"
-      />
-      <p>${weatherDesc}</p>
-      <p>${temp}&deg;C</p>`;
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-  function getNextDayLocal() {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${coords.latitude}&lon=${coords.longitude}&appid=${apiKey}&units=metric`
-      )
-      .then((resp) => {
-        console.log(resp);
-        let datesData = resp.data.list.filter((day) =>
-          day.dt_txt.includes("12:00")
-        );
-        console.log(datesData);
-        for (let i = 0; i < 3; i++) {
-          let daysOfTheWeekArr = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ];
-          let date = new Date(datesData[i].dt * 1000);
-          let dayofTheWeek = daysOfTheWeekArr[date.getDay()];
-          let temp = Math.floor(datesData[i].main.temp);
-          let weatherDesc = datesData[i].weather[0].description;
-          let weatherImage = datesData[i].weather[0].icon;
-
-          dayContainer[i].innerHTML = `<p> ${dayofTheWeek} </p>
-                                      <img src="https://openweathermap.org/img/wn/${weatherImage}@2x.png">
-                                      <p>${weatherDesc}</p>
-                                      <p>${temp} &deg;C </p>`;
-
-          locationButton.classList.remove("is-loading");
-        }
+        updateLaterData(resp);
+        updateNextDayData(resp);
       })
       .catch(function (error) {
         console.log(error);
@@ -235,10 +84,4 @@ async function getLocalWeather() {
   }
   getCurrentWeatherDataLocal();
   getLaterDatesLocal();
-  getNextDayLocal();
 }
-
-locationButton.addEventListener("click", () => {
-  locationButton.classList.add("is-loading");
-  getLocalWeather();
-});
